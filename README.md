@@ -12,6 +12,6 @@
 
 ## How to run in iOS
 ```
-> Run the command "cd ios && pod install"
+> Run the command "cd ios && pod install && cd .."
 > Run the command "react-native run-ios"
 ```
