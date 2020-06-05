@@ -1,0 +1,6 @@
+module Pods_SkeletonReactNative {
+  umbrella header "Pods-SkeletonReactNative-umbrella.h"
+
+  export *
+  module * { export * }
+}
