@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { createStore, applyMiddleware, compose } from "redux";
-import createSagaMiddleware from "redux-saga"; 
+import createSagaMiddleware from "redux-saga";
 import { Provider } from "react-redux";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reducer from "./redux/RootReducer";
@@ -19,7 +19,7 @@ const store = createAppropriateStore(reducer, composeWithDevTools(...enhancers))
 
 sagaMiddleware.run(rootSaga);
 
-class mainReduxSetup extends Component {
+class MainReduxSetup extends Component {
     render() {
         return (
             <Provider store={store}>
@@ -28,4 +28,4 @@ class mainReduxSetup extends Component {
         )
     }
 }
-export default mainReduxSetup
+export default MainReduxSetup
