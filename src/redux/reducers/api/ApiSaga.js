@@ -7,7 +7,6 @@ export const apiWatcherSaga = [
 ];
 
 function* apiWorkerSaga(action) {
-    debugger
     try {
         const response = yield call(apiCall, action.data.api, action.data.requestType, action.data.reqObject);
         console.log('res: ', JSON.stringify(response))
@@ -20,5 +19,5 @@ function* apiWorkerSaga(action) {
 }
 
 function apiCall(api, request, data) {
-    return NetworkManager.networkManagerInstance.fetchRequest(api, request, data);
+    return NetworkManager.networkManagerInstance.fetchRequest(api, request, true, data);
 }

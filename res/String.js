@@ -10,5 +10,12 @@ export default {
     app: {
         apiButtonText: 'Test API via Redux',
         apiResponseText: 'API Response received',
-    }
+    },
+    noInternet: {
+        btnText: "Retry",
+        subHeader: "Uh oh!",
+        msg1: "No internet connection found.",
+        msg2: " Check your connection or try again later."
+
+    },
 }

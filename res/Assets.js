@@ -4,6 +4,7 @@
  */
 export default {
     common: {
-        back: require('./assets/common/back.png')
+        back: require('./assets/common/back.png'),
+        noInternet: require('./assets/common/NoInternet.png'),
     }
 }

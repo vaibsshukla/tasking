@@ -3,6 +3,7 @@ import { ToastAndroid, Platform } from 'react-native'
 
 export default class Utility {
     static sharedInstance = Utility.sharedInstance == null ? new Utility() : Utility.sharedInstance;
+    HOC = undefined
 
     showToast(message) {
         if (Platform.OS === 'ios') {
@@ -33,7 +34,7 @@ export default class Utility {
             ToastAndroid.show(message, ToastAndroid.SHORT);
         }
     }
-    
+
     validateMobileNumber = (fieldValue) => {
         const regEx = /^[0-9]{7,9}$/
         if (regEx.test(fieldValue)) {

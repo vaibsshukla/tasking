@@ -1,81 +1,67 @@
 import React, { Component } from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  StatusBar,
-  TouchableOpacity
-} from 'react-native';
+import { View, Keyboard } from 'react-native'
+import { NavigationContainer } from "@react-navigation/native";
+import { MainStackNavigator } from "../navigation/MainStackNavigator";
+import ProgressView from '../components/ProgressView'
+import NoNetwork from '../components/NoNetwork'
+import { Utility, NetworkManager } from '../utils/index'
+import { Constant } from '../../res/index'
 
-import { apis } from '../../res/URL';
-import { API_CALL, DUMMY_API_CALL } from "../redux/Actions"
-import { connect } from "react-redux";
-import { Strings, Color } from '../../res'
-
-class App extends Component {
-
-  apiHandler = () => {
-    let data = {
-      api: apis.dummy_api,
-      requestType: apis.getRequest,
-      type: DUMMY_API_CALL
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    Utility.sharedInstance.HOC = this
+    this.state = {
+      isOverlayVisible: false,
+      showProgressBar: false
     }
-    this.props.apiDispatcher(data);
+  }
+
+  showHideProgressBar = (status) => {
+    Keyboard.dismiss()
+    this.setState({
+      showProgressBar: status,
+    })
+  }
+
+  showOverlay(parameter = {}) {
+    this.onRetryClicked = parameter.onRetryClicked
+    Keyboard.dismiss()
+    this.setState({
+      isOverlayVisible: true,
+    })
+  }
+
+  instantiateReachability() {
+    if (__DEV__) console.log('instantiateReachability')
+    const reachabilityCallback = (isConnected) => null
+    NetworkManager.networkManagerInstance.reachabilityListener(reachabilityCallback)
+  }
+
+  componentDidMount() {
+    this.instantiateReachability()
   }
 
   render() {
     return (
-      <>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView>
-          <View style={styles.body}>
-            <TouchableOpacity
-              onPress={() => this.apiHandler()}
-              style={styles.apiButton}>
-              <Text style={styles.apiButtonText}>{Strings.app.apiButtonText}</Text>
-            </TouchableOpacity>
-
-            {this.props.data != '' && <Text style={styles.responseText}>{Strings.app.apiResponseText}</Text>}
-          </View>
-        </SafeAreaView>
-      </>
+      <View style={{ flex: 1 }}>
+        <NavigationContainer>
+          <MainStackNavigator
+            routeName={'LandingScreen'}
+          />
+        </NavigationContainer>
+        {this.onRetryClicked && this.state.isOverlayVisible &&
+          <NoNetwork onRetryClicked={() => {
+            if (NetworkManager.networkManagerInstance.isInternetConnected) {
+              this.setState({ isOverlayVisible: false })
+              this.onRetryClicked()
+            } else {
+              Utility.sharedInstance.showToast(Constant.common.noInternetError);
+            }
+          }} />
+        }
+        <ProgressView animate={this.state.showProgressBar} />
+      </View>
     )
   };
 };
-
-const styles = StyleSheet.create({
-  body: {
-    backgroundColor: Color.white,
-  },
-  apiButton: {
-    height: 50,
-    alignItems: 'center',
-    backgroundColor: Color.primaryColor,
-    justifyContent: 'center',
-    margin: 20
-  },
-  apiButtonText: {
-    fontSize: 20,
-    fontWeight: '500',
-    color: Color.white
-  },
-  responseText: {
-    alignSelf: 'center',
-    fontSize: 18
-  }
-});
-
-const mapStateToProps = state => {
-  return {
-    data: state.apiReducer.testResponse,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    apiDispatcher: (data) => dispatch({ type: API_CALL, data }),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
