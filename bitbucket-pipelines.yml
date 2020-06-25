@@ -1,0 +1,17 @@
+# This is a sample build configuration for JavaScript.
+# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: node:10.15.3
+
+pipelines:
+    branches:
+       master:
+         - step:
+             trigger: automatic
+             caches:
+               - node
+             script: # Modify the commands below to build your repository.
+             - npm install -g sonarqube-scanner
+             - sonar-scanner -Dsonar.projectKey=skeleton_react_native -Dsonar.sources=src -Dsonar.host.url=https://sonarqube.affle.com -Dsonar.login=e4e32097615237ae3b155cfda05795451b79f77d
