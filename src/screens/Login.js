@@ -208,40 +208,7 @@ class Login extends Component {
 
     }
 
-    UNSAFE_componentWillReceiveProps = async (nextProps) => {
-        this.setState({ loading: false })
-        if (nextProps.user.status === 200) {
-            if (nextProps.user.data.user_type == 3) {
-                SharedInstance.sharedInstance.token = nextProps.user.data.token || ''
-                AsyncStorage.setItem(AsyncStorageValues.id, nextProps.user.data.id || '')
-                AsyncStorage.setItem(AsyncStorageValues.token, nextProps.user.data.token || '')
-                AsyncStorage.setItem(AsyncStorageValues.name, nextProps.user.data.name || '')
-                AsyncStorage.setItem(AsyncStorageValues.email, nextProps.user.data.email || '')
-                AsyncStorage.setItem(AsyncStorageValues.mobile, nextProps.user.data.mobile || '')
-                AsyncStorage.setItem(AsyncStorageValues.password, nextProps.user.data.password || '')
-                AsyncStorage.setItem(AsyncStorageValues.organisation, nextProps.user.data.organisation || '')
-                AsyncStorage.setItem(AsyncStorageValues.designation, nextProps.user.data.designation || '')
-                AsyncStorage.setItem(AsyncStorageValues.industry, nextProps.user.data.industry || '')
-                AsyncStorage.setItem(AsyncStorageValues.token, nextProps.user.data.token || '')
-                AsyncStorage.setItem(AsyncStorageValues.path, nextProps.user.data.path || '')
-                NetworkManager.sharedInstance.token = nextProps.user.data.token || ''
 
-                this.props.navigation.navigate(constants.router.Verification, { email: nextProps.user.data.email, user_id: nextProps.user.data.id, navigationFrom: 'Login' })
-
-            } else if (nextProps.user.data.user_type == 2) {
-                showToast({ message: Strings.toastMsg.login.lofinfromstaffApp })
-            } else {
-                showToast({ message: Strings.toastMsg.login.loginfromadminPanel })
-            }
-        } else {
-            this.setState({ loading: false })
-            handleFailure(this.props.user)
-        }
-    }
-    async lastScreenTracker() {
-        await AsyncStorage.setItem(AsyncStorageValues.lastScreenVisited, '')
-        await AsyncStorage.setItem(AsyncStorageValues.eventId, '')
-    }
 }
 
 const mapStateToProps = state => {

@@ -113,6 +113,37 @@ class SignUp extends Component {
             </KeyboardAvoidingView>
         );
     }
+    validate(name, email, password,) {
+        if (name != undefined) {
+            if (name == '') {
+                showToast(strings.please_enter_your_name)
+                return false;
+            }
+        }
+        if (!email) {
+            showToast(strings.please_enter_your_email)
+            this.refs.refLogin.focus()
+            return false;
+        }
+        if (!validateEmail(email)) {
+            showToast(strings.please_enter_your_valid_email)
+            this.refs.refLogin.focus()
+            return false;
+        }
+        if (password != undefined) {
+            if (password == '') {
+                showToast(strings.please_enter_your_password)
+                return false;
+            }
+
+        }
+
+
+
+
+
+        return true;
+    }
 
 
     signupApiHandler = async () => {
@@ -120,17 +151,23 @@ class SignUp extends Component {
         data.emailId = this.state.email
         data.password = this.state.password
         data.fullName = this.state.name
-        let res = await NetworkManager.networkManagerInstance.secretTokenfetchRequest(apis.signUp, apis.postRequest, true, data, () => this.signupApiHandler())
-        if (res.status == 200) {
-            alert('Logged in ')
-            AsyncStorage.setItem(AsyncStorageValues.token, res.token || '')
-            AsyncStorage.setItem(AsyncStorageValues.name, this.state.name || '')
-            AsyncStorage.setItem(AsyncStorageValues.email, this.state.email || '')
-            alert('Account created LOGGED IN')
-        } else {
-            showToast(res.message)
-        }
 
+        if (this.validate(
+            this.state.name,
+            this.state.email,
+            this.state.password,
+        )) {
+            let res = await NetworkManager.networkManagerInstance.secretTokenfetchRequest(apis.signUp, apis.postRequest, true, data, () => this.signupApiHandler())
+            if (res.status == 200) {
+                alert('Logged in ')
+                AsyncStorage.setItem(AsyncStorageValues.token, res.token || '')
+                AsyncStorage.setItem(AsyncStorageValues.name, this.state.name || '')
+                AsyncStorage.setItem(AsyncStorageValues.email, this.state.email || '')
+                alert('Account created LOGGED IN')
+            } else {
+                showToast(res.message)
+            }
+        }
     }
 
 
