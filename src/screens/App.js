@@ -6,6 +6,7 @@ import ProgressView from '../components/ProgressView'
 import NoNetwork from '../components/NoNetwork'
 import { Utility, NetworkManager } from '../utils/index'
 import { Constant } from '../../res/index'
+console.disableYellowBox = true;
 
 export default class App extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ export default class App extends Component {
       <View style={{ flex: 1 }}>
         <NavigationContainer>
           <MainStackNavigator
-            routeName={'LandingScreen'}
+            routeName={'Login'}
           />
         </NavigationContainer>
         {this.onRetryClicked && this.state.isOverlayVisible &&

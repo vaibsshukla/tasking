@@ -1,9 +1,11 @@
-import Assets from "./Assets";
-import Color from './Color'
-import Constant from './Constants'
+import assets from "./Assets";
+import colors from './Color'
+import constants from './Constants'
 import Dimen from './Dimen'
-import Strings from './String'
+import strings from './String'
 import URL from './URL'
+import Fonts from "./Fonts";
+import AsyncStorageValues from "./AsyncStorageValues";
 
 // Exorting all the resources from index To keep track of all the resource files
-export { Assets, Color, Constant, Dimen, Strings, URL }
+export { assets, colors, constants, Dimen, strings, URL, Fonts, AsyncStorageValues }

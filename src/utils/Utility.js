@@ -1,39 +1,12 @@
 import Toast from 'react-native-root-toast';
 import { ToastAndroid, Platform } from 'react-native'
+import constants from '../../res/Constants';
 
 export default class Utility {
     static sharedInstance = Utility.sharedInstance == null ? new Utility() : Utility.sharedInstance;
     HOC = undefined
 
-    showToast(message) {
-        if (Platform.OS === 'ios') {
-            let toast = Toast.show(message, {
-                duration: Toast.durations.LONG,
-                position: -50,
-                shadow: true,
-                animation: true,
-                hideOnPress: true,
-                delay: 0,
-                onShow: () => {
 
-                },
-                onShown: () => {
-
-                },
-                onHide: () => {
-
-                },
-                onHidden: () => {
-
-                },
-            });
-            setTimeout(function () {
-                Toast.hide(toast);
-            }, 5000);
-        } else {
-            ToastAndroid.show(message, ToastAndroid.SHORT);
-        }
-    }
 
     validateMobileNumber = (fieldValue) => {
         const regEx = /^[0-9]{7,9}$/
@@ -67,5 +40,40 @@ export default class Utility {
         if (__DEV__) {
             console.log(msg, options);
         }
+    }
+}
+export const validateEmail = (email) => {
+    var regex = constants.regex.email
+    return regex.test(email);
+}
+
+
+export function showToast(message) {
+    if (Platform.OS === 'ios') {
+        let toast = Toast.show(message, {
+            duration: Toast.durations.LONG,
+            position: -50,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            delay: 0,
+            onShow: () => {
+
+            },
+            onShown: () => {
+
+            },
+            onHide: () => {
+
+            },
+            onHidden: () => {
+
+            },
+        });
+        setTimeout(function () {
+            Toast.hide(toast);
+        }, 5000);
+    } else {
+        ToastAndroid.show(message, ToastAndroid.SHORT);
     }
 }

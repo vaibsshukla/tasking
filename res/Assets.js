@@ -6,5 +6,9 @@ export default {
     common: {
         back: require('./assets/common/back.png'),
         noInternet: require('./assets/common/NoInternet.png'),
+
+    },
+    loginSignUp: {
+        login_backgroud_image: require('./assets/common/login_backgroud_image.png')
     }
 }

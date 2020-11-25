@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, Keyboard } from 'react-native';
-import { Color, Assets, Strings } from '../../res';
+import { colors as Color, Assets, Strings } from '../../res/index';
 
 export default class NoNetwork extends Component {
     componentDidMount() {
