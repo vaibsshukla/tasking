@@ -4,7 +4,7 @@
  */
 
 export const AppInfo = {
-    baseUrlAPI: 'https://cigapi.affleprojects.com',
+    baseUrlAPI: 'http://tasking.affleprojects.com/api',
     apiVersion: 'v1',
     serviceTimeOut: 20000,
 };
@@ -14,7 +14,8 @@ export const apis = {
     postRequest: 'POST',
     deleteRequest: 'DELETE',
     putRequest: 'PUT',
-    baseURL: AppInfo.baseUrlAPI + "/" + AppInfo.apiVersion + "/",
+    baseURL: AppInfo.baseUrlAPI + "/",
 
-    dummy_api: '/web/getTnC',
+    signUp: 'signup',
+    signin: 'signin',
 }

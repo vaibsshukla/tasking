@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SkeletonReactNative.iml" filepath="$PROJECT_DIR$/SkeletonReactNative.iml" group="SkeletonReactNative" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="SkeletonReactNative/app" />
+      <module fileurl="file://$PROJECT_DIR$/SkeletonReactNative.iml" filepath="$PROJECT_DIR$/SkeletonReactNative.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SkeletonReactNative.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SkeletonReactNative.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/920950241/SkeletonReactNative.lottie-react-native.iml" filepath="$PROJECT_DIR$/.idea/modules/920950241/SkeletonReactNative.lottie-react-native.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/843283474/SkeletonReactNative.react-native-community_masked-view.iml" filepath="$PROJECT_DIR$/.idea/modules/843283474/SkeletonReactNative.react-native-community_masked-view.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1987290442/SkeletonReactNative.react-native-community_netinfo.iml" filepath="$PROJECT_DIR$/.idea/modules/-1987290442/SkeletonReactNative.react-native-community_netinfo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1280563461/SkeletonReactNative.react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/1280563461/SkeletonReactNative.react-native-gesture-handler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/36992503/SkeletonReactNative.react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/36992503/SkeletonReactNative.react-native-reanimated.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1382759378/SkeletonReactNative.react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/-1382759378/SkeletonReactNative.react-native-safe-area-context.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-390011450/SkeletonReactNative.react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/-390011450/SkeletonReactNative.react-native-screens.iml" />
     </modules>
   </component>
 </project>

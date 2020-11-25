@@ -9,6 +9,8 @@ export default {
 
     },
     loginSignUp: {
-        login_backgroud_image: require('./assets/common/login_backgroud_image.png')
+        login_backgroud_image: require('./assets/common/login_backgroud_image.png'),
+        eye: require('./assets/common/eye.png'),
+        hide_eye: require('./assets/common/hide_eye.png'),
     }
 }

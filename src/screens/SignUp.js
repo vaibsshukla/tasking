@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, StatusBar, TextInput, ImageBackground, ScrollView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView, KeyboardAvoidingView, SectionList } from 'react-native';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
-import { strings, assets, colors, constants, AsyncStorageValues, Fonts, } from '../../res/index';
+import { strings, assets, colors, constants, AsyncStorageValues, Fonts, URL, } from '../../res/index';
 import { ButtonComponent, IseasTextInput, AppHeader } from '../components/index';
 import { validateEmail, validatePassword, validateMobile, showToast, isPasswordValid } from '../utils/Utility';
 import SharedInstance from '../utils/SharedInstance';
 import NetworkManager from '../utils/NetworkManager';
 import { Header } from '@react-navigation/stack'
-
+import { apis } from '../../res/URL';
 var { width, height } = Dimensions.get('window');
 const keypadPadding = height < 700 ? height * 0.25 : height * 0.35
 
@@ -19,23 +19,8 @@ class SignUp extends Component {
         this.state = {
             name: '',
             email: '',
-            organisation: '',
-            department: 'Author',
-            contact_number: '',
             password: '',
-            approved_status: true,
-            designation: '',
-            industry: 'IT',
-            loading: false,
-            isVisible: true,
-            isSelectIndexForItem: '',
-            others_text: '',
-            others_subdomain_text: '',
-            others_domain_text: '',
-            onContinuePress: false,
-            fcmToken: '',
-            key: -1,
-            selectedHeader: '',
+
         };
     }
 
@@ -106,7 +91,7 @@ class SignUp extends Component {
                             <View style={{ marginTop: 200, bottom: 0 }}>
                                 <ButtonComponent
                                     callBack={() => {
-                                        // this.onContinuePress()
+                                        this.signupApiHandler()
                                     }}
                                     buttonText={strings.continue} />
                             </View>
@@ -128,6 +113,26 @@ class SignUp extends Component {
             </KeyboardAvoidingView>
         );
     }
+
+
+    signupApiHandler = async () => {
+        let data = {}
+        data.emailId = this.state.email
+        data.password = this.state.password
+        data.fullName = this.state.name
+        let res = await NetworkManager.networkManagerInstance.secretTokenfetchRequest(apis.signUp, apis.postRequest, true, data, () => this.signupApiHandler())
+        if (res.status == 200) {
+            alert('Logged in ')
+            AsyncStorage.setItem(AsyncStorageValues.token, res.token || '')
+            AsyncStorage.setItem(AsyncStorageValues.name, this.state.name || '')
+            AsyncStorage.setItem(AsyncStorageValues.email, this.state.email || '')
+            alert('Account created LOGGED IN')
+        } else {
+            showToast(res.message)
+        }
+
+    }
+
 
 };
 const mapStateToProps = state => {

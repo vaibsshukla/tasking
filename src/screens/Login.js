@@ -7,6 +7,7 @@ import { colors, constants, assets, AsyncStorageValues, Fonts } from '../../res/
 import { ButtonComponent, IseasTextInput } from '../components/index';
 import { validateEmail, showToast, } from '../utils/Utility';
 import SharedInstance from '../utils/SharedInstance';
+import { apis } from '../../res/URL';
 
 import Strings from '../../res/String';
 
@@ -163,56 +164,11 @@ class Login extends Component {
 
 
 
-
-    async checkPermission() {
-
-        //
-        console.log('checkPermissionnnnnnn')
-
-        const enabled = await firebase.messaging().hasPermission();
-        console.log('checkPermission', enabled)
-        if (enabled) {
-
-            this.getToken();
-        } else {
-
-            this.requestPermission();
-        }
-    }
-
     //3
-    async getToken() {
 
-        let fcmToken = await AsyncStorage.getItem(AsyncStorageValues.deviceToken);
-        if (!fcmToken) {
-
-            fcmToken = await firebase.messaging().getToken();
-            if (fcmToken) {
-
-                this.setState({ fcmToken }, () => console.log('this.state.fcmToken' + this.state.fcmToken))
-                console.log("push Notification Token", fcmToken)
-                await AsyncStorage.setItem(AsyncStorageValues.deviceToken, fcmToken);
-            }
-        } else {
-            this.setState({ fcmToken }, () => console.log('this.state.fcmToken' + this.state.fcmToken))
-            console.log("push Notification Token else condition", fcmToken)
-        }
-    }
 
     //2
-    async requestPermission() {
 
-        //
-        try {
-            console.log("into fcm");
-            await firebase.messaging().requestPermission();
-            // User has authorised
-            this.getToken();
-        } catch (error) {
-            // User has rejected permissions
-            console.log('permission rejected');
-        }
-    }
 
     validate(email, password) {
         if (!email) {
@@ -233,25 +189,23 @@ class Login extends Component {
                 return false;
             }
         }
-        // if (!validatePassword(password)) {
-        //     showToast({ message: strings.password_should_be_alphanumeric })
-        //     return false;
-        // }
         return true;
     }
 
-    async onSkipforNow() {
-
-        // NavUtil.navUtil.navigateWithResetStack(this,constants.router.Home )
-        this.props.navigation.navigate(constants.router.Home)
-    }
 
     async loginPress() {
-        if (await this.validate(this.state.email, this.state.password)) {
-            this.setState({ loading: true })
-            console.log("fcm Token asdasdasdsa" + this.state.fcmToken)
-            this.props.login(this.state.email.toLowerCase(), this.state.password, this.state.fcmToken)
+        let data = {}
+        data.emailId = this.state.email
+        data.password = this.state.password
+        let res = await NetworkManager.networkManagerInstance.secretTokenfetchRequest(apis.signin, apis.postRequest, true, data, () => this.loginPress())
+
+        if (res.status == 200) {
+            AsyncStorage.setItem(AsyncStorageValues.token, res.token || '')
+            alert('Account created LOGGED IN')
+        } else {
+            showToast(res.message)
         }
+
     }
 
     UNSAFE_componentWillReceiveProps = async (nextProps) => {
