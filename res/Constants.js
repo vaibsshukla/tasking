@@ -17,6 +17,8 @@ export default {
     },
     router: {
         signUp: 'SignUp',
+        homescreen: 'HomeScreen',
+        login: 'Login',
 
     }
 }

@@ -48,7 +48,7 @@ export default class App extends Component {
       <View style={{ flex: 1 }}>
         <NavigationContainer>
           <MainStackNavigator
-            routeName={'Login'}
+            routeName={'InitialRoute'}
           />
         </NavigationContainer>
         {this.onRetryClicked && this.state.isOverlayVisible &&

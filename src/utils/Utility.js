@@ -5,7 +5,10 @@ import constants from '../../res/Constants';
 export default class Utility {
     static sharedInstance = Utility.sharedInstance == null ? new Utility() : Utility.sharedInstance;
     HOC = undefined
-
+    token = undefined
+    name = undefined
+    email = undefined
+    id = undefined
 
 
     validateMobileNumber = (fieldValue) => {

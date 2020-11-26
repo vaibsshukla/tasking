@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, StatusBar, TextInput, ImageBackground, ScrollView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView, KeyboardAvoidingView, SectionList } from 'react-native';
+import { StyleSheet, Alert, Text, View, Image, Dimensions, TouchableOpacity, StatusBar, TextInput, ImageBackground, ScrollView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView, KeyboardAvoidingView, SectionList } from 'react-native';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import { strings, assets, colors, constants, AsyncStorageValues, Fonts, URL, } from '../../res/index';
 import { ButtonComponent, IseasTextInput, AppHeader } from '../components/index';
-import { validateEmail, validatePassword, validateMobile, showToast, isPasswordValid } from '../utils/Utility';
+import Utility, { validateEmail, validatePassword, validateMobile, showToast, isPasswordValid } from '../utils/Utility';
 import SharedInstance from '../utils/SharedInstance';
 import NetworkManager from '../utils/NetworkManager';
 import { Header } from '@react-navigation/stack'
 import { apis } from '../../res/URL';
+import Constants from '../../res/Constants';
 var { width, height } = Dimensions.get('window');
 const keypadPadding = height < 700 ? height * 0.25 : height * 0.35
 
@@ -32,8 +33,8 @@ class SignUp extends Component {
             <View style={styles.container}>
 
                 {!this.state.onContinuePress && <ImageBackground
-                    source={assets.loginSignUp.login_backgroud_image}
-                    style={{ width: '100%', height: '100%' }}>
+                    // source={assets.loginSignUp.login_backgroud_image}
+                    style={{ width: '100%', height: '100%', backgroundColor: colors.primaryColor }}>
                     <SafeAreaView style={{ flex: 1 }}>
                         {this.renderSignUpView()}
                     </SafeAreaView>
@@ -93,9 +94,9 @@ class SignUp extends Component {
                                     callBack={() => {
                                         this.signupApiHandler()
                                     }}
-                                    buttonText={strings.continue} />
+                                    buttonText={'Sign Up'} />
                             </View>
-                            <View style={{ marginTop: 15, paddingBottom: 40 }} >
+                            {/* <View style={{ marginTop: 15, paddingBottom: 40 }} >
                                 <Text style={{ fontSize: 12, fontWeight: Fonts.medium, color: colors.lightBlueTextColor, alignSelf: 'center' }}>{strings.by_click}</Text>
                                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 5 }} >
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate(constants.router.TermsandConditions)}>
@@ -106,7 +107,7 @@ class SignUp extends Component {
                                         <Text style={{ fontSize: 12, fontWeight: Fonts.medium, color: colors.secondaryColor }} >{strings.privacy_policy}</Text>
                                     </TouchableOpacity>
                                 </View>
-                            </View>
+                            </View> */}
                         </View>
                     </TouchableWithoutFeedback>
                 </ScrollView>
@@ -135,13 +136,7 @@ class SignUp extends Component {
                 showToast(strings.please_enter_your_password)
                 return false;
             }
-
         }
-
-
-
-
-
         return true;
     }
 
@@ -159,11 +154,22 @@ class SignUp extends Component {
         )) {
             let res = await NetworkManager.networkManagerInstance.secretTokenfetchRequest(apis.signUp, apis.postRequest, true, data, () => this.signupApiHandler())
             if (res.status == 200) {
-                alert('Logged in ')
-                AsyncStorage.setItem(AsyncStorageValues.token, res.token || '')
-                AsyncStorage.setItem(AsyncStorageValues.name, this.state.name || '')
-                AsyncStorage.setItem(AsyncStorageValues.email, this.state.email || '')
-                alert('Account created LOGGED IN')
+                NetworkManager.networkManagerInstance.token = res.token
+
+                Utility.sharedInstance.token = res.token
+                Utility.sharedInstance.name = res.data.fullName
+                Utility.sharedInstance.email = res.data.emailId
+                Utility.sharedInstance.id = res.data._id
+                await AsyncStorage.setItem(AsyncStorageValues.token, res.token || '')
+                await AsyncStorage.setItem(AsyncStorageValues.name, res.data.fullName || '')
+                await AsyncStorage.setItem(AsyncStorageValues.email, res.data.emailId || '')
+                await AsyncStorage.setItem(AsyncStorageValues.id, res.data.id || '')
+
+
+
+                this.props.navigation.navigate(Constants.router.homescreen)
+                Alert.alert('Account created');
+
             } else {
                 showToast(res.message)
             }

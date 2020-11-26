@@ -71,13 +71,12 @@ export default class NetworkManager {
             this.progressBarRequest(true);
         }
         let headers = {
-            'Accept': 'application/json',
             'Content-Type': 'application/json',
         };
 
         if (__DEV__) console.log('this.token ', this.token);
         if (this.token != null) {
-            headers['Authorization'] = this.token
+            headers['x-secret-token'] = this.token
         }
         let url = `${apis.baseURL}${api}`;
         let timeout = (1000 * 60) * 2;  // 2 mins

@@ -5,11 +5,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import NetworkManager from '../utils/NetworkManager';
 import { colors, constants, assets, AsyncStorageValues, Fonts } from '../../res/index';
 import { ButtonComponent, IseasTextInput } from '../components/index';
-import { validateEmail, showToast, } from '../utils/Utility';
+import Utility, { validateEmail, showToast, } from '../utils/Utility';
 import SharedInstance from '../utils/SharedInstance';
 import { apis } from '../../res/URL';
 
 import Strings from '../../res/String';
+import Constants from '../../res/Constants';
 
 let window = Dimensions.get('window');
 class Login extends Component {
@@ -33,7 +34,7 @@ class Login extends Component {
             <View style={styles.container} >
                 <StatusBar barStyle="light-content" backgroundColor="black" />
                 <ImageBackground
-                    source={assets.loginSignUp.login_backgroud_image}
+
                     style={[styles.ImageBackground,]}>
                     <SafeAreaView style={{ flex: 1 }} >
                         <ScrollView
@@ -61,6 +62,7 @@ class Login extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <View style={{ flex: 1, }}>
+
                     {/* <Text
                         onPress={async () => {
                             await SharedInstance.sharedInstance.logout()
@@ -68,11 +70,8 @@ class Login extends Component {
                         }}
                         style={{ fontSize: 14, fontWeight: Fonts.medium, color: colors.secondaryColor, alignSelf: 'flex-end', padding: 30 }} >SKIP FOR NOW</Text> */}
                     <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                        <Image source={assets.loginSignUp.logo} style={{ marginBottom: 250, height: 150, width: 150, tintColor: colors.white, alignSelf: 'center' }} />
 
-                        <Image
-                            resizeMode='center'
-                            style={{ ...styles.logo }}
-                            source={assets.common.title} />
                         <IseasTextInput
                             ref='refLogin'
                             placeholder={strings.email}
@@ -149,7 +148,6 @@ class Login extends Component {
     componentDidMount = async () => {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
 
-        this.checkPermission()
 
     }
 
@@ -172,22 +170,19 @@ class Login extends Component {
 
     validate(email, password) {
         if (!email) {
-            showToast({ message: strings.please_enter_your_email })
+            showToast(strings.please_enter_your_email)
             return false;
         }
         if (!validateEmail(email)) {
-            showToast({ message: strings.please_enter_your_valid_email })
+            showToast(strings.please_enter_your_valid_email)
             return false;
         }
         if (password != undefined) {
             if (password == '') {
-                showToast({ message: strings.please_enter_your_password })
+                showToast(strings.please_enter_your_password)
                 return false;
             }
-            if (password.length < 8) {
-                showToast({ message: strings.password_length_atleast })
-                return false;
-            }
+
         }
         return true;
     }
@@ -197,13 +192,27 @@ class Login extends Component {
         let data = {}
         data.emailId = this.state.email
         data.password = this.state.password
-        let res = await NetworkManager.networkManagerInstance.secretTokenfetchRequest(apis.signin, apis.postRequest, true, data, () => this.loginPress())
+        if (this.validate(this.state.email, this.state.password)) {
+            let res = await NetworkManager.networkManagerInstance.secretTokenfetchRequest(apis.signin, apis.postRequest, true, data, () => this.loginPress())
 
-        if (res.status == 200) {
-            AsyncStorage.setItem(AsyncStorageValues.token, res.token || '')
-            alert('Account created LOGGED IN')
-        } else {
-            showToast(res.message)
+            if (res.status == 200) {
+
+                NetworkManager.networkManagerInstance.token = res.data.token
+
+                Utility.sharedInstance.token = res.data.token
+                Utility.sharedInstance.name = res.data.fullName
+                Utility.sharedInstance.email = res.data.emailId
+                Utility.sharedInstance.id = res.data.id
+                await AsyncStorage.setItem(AsyncStorageValues.token, res.data.token || '')
+                await AsyncStorage.setItem(AsyncStorageValues.name, res.data.fullName || '')
+                await AsyncStorage.setItem(AsyncStorageValues.email, res.data.emailId || '')
+                await AsyncStorage.setItem(AsyncStorageValues.id, res.data.id || '')
+
+                this.props.navigation.navigate(Constants.router.homescreen)
+
+            } else {
+                showToast(res.message)
+            }
         }
 
     }
@@ -227,7 +236,8 @@ const styles = StyleSheet.create({
     },
     ImageBackground: {
         width: '100%',
-        height: '100%'
+        height: '100%',
+        backgroundColor: colors.primaryColor
     },
     logo: {
         height: 45,

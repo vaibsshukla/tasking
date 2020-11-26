@@ -18,4 +18,7 @@ export const apis = {
 
     signUp: 'signup',
     signin: 'signin',
+    createTask: 'post',
+    taskListing: 'post/details',
+    editDetail: 'post/edit',
 }

@@ -7,6 +7,7 @@ export default ButtonComponent = ({ buttonText, callBack, width, height, backgro
         <TouchableOpacity
             style={
                 [
+
                     styles.buttonContainer,
                     { width: width ? width : '80%' },
                     { height: height ? height : 50 },
