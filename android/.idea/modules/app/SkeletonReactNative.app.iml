@@ -92,6 +92,7 @@
     <orderEntry type="library" name="Gradle: com.facebook.fresco:nativeimagefilters:2.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.facebook.fresco:nativeimagetranscoder:2.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: org.webkit:android-jsc:r245459@aar" level="project" />
+    <orderEntry type="module" module-name="SkeletonReactNative.react-native-community_async-storage" />
     <orderEntry type="module" module-name="SkeletonReactNative.react-native-community_masked-view" />
     <orderEntry type="module" module-name="SkeletonReactNative.react-native-community_netinfo" />
     <orderEntry type="module" module-name="SkeletonReactNative.lottie-react-native" />
